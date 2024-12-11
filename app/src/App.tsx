@@ -8,13 +8,14 @@ import Products from "./pages/admin-view/products";
 import Orders from "./pages/admin-view/orders";
 import Features from "./pages/admin-view/features";
 import CheckAuth from "./components/common/check-auth";
+import { useSelector } from "react-redux";
 
 function App() {
-  const isAuthenticated = false;
-  const user = {
-    name: "jasmine",
-    role: "user",
-  };
+
+
+  const{isAuthenticated,user}=useSelector((state:any)=>state.auth);
+
+
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <h1>welcome to earnshop_mern</h1>
