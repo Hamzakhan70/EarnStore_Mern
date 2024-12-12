@@ -8,14 +8,24 @@ import Products from "./pages/admin-view/products";
 import Orders from "./pages/admin-view/orders";
 import Features from "./pages/admin-view/features";
 import CheckAuth from "./components/common/check-auth";
-import { useSelector } from "react-redux";
 
+import { useDispatch, useSelector } from "react-redux";
+import ShoppingLayout from "./components/shopping-view/layout";
+import ShoppingHome from "./pages/shopping-view/home";
+import ShoppingListing from "./pages/shopping-view/listing";
+import ShoppingAccounts from "./pages/shopping-view/accounts";
+import ShoppingCheckout from "./pages/shopping-view/checkout";
+import { useEffect } from "react";
+// import { checkAuth } from "./store/auth-slice";
+import { checkAuth } from "@/store/auth-slice";
+// import { ToastProvider } from "@/components/ui/use-toast";
 function App() {
-
-
-  const{isAuthenticated,user}=useSelector((state:any)=>state.auth);
-
-
+  const { isAuthenticated, user } = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(checkAuth());
+    // console.log("hello");
+  }, [dispatch]);
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <h1>welcome to earnshop_mern</h1>
@@ -45,6 +55,24 @@ function App() {
           <Route path="Dashboard" element={<Dashboard />} />
           <Route path="features" element={<Features />} />
         </Route>
+        <Route
+          path="/shop"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <ShoppingLayout />
+            </CheckAuth>
+          }
+        >
+          <Route path="home" element={<ShoppingHome />} />
+          <Route path="listing" element={<ShoppingListing />} />
+          <Route path="checkout" element={<ShoppingCheckout />} />
+          <Route path="account" element={<ShoppingAccounts />} />
+          {/* <Route path="paypal-return" element={<PaypalReturnPage />} />
+          <Route path="payment-success" element={<PaymentSuccessPage />} />
+          <Route path="search" element={<SearchProducts />} /> */}
+        </Route>
+        {/* <Route path="/unauth-page" element={<UnauthPage />} />
+        <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </div>
   );

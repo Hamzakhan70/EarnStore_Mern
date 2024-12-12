@@ -1,10 +1,9 @@
-function Accounts(){
-    return(
-        <>
-        
-        <h1>Accounts</h1>
-        </>
-    )
+function ShoppingAccounts() {
+  return (
+    <>
+      <h1>Accounts</h1>
+    </>
+  );
 }
 
-export default Accounts
+export default ShoppingAccounts;

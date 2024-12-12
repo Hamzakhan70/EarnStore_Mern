@@ -2,7 +2,7 @@ import CommonForm from "@/components/common/form";
 import { useToast } from "@/components/ui/use-toast";
 import { loginFormControls } from "@/config";
 import { loginUser } from "@/store/auth-slice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -14,30 +14,44 @@ const initialState = {
 
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { toast } = useToast();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   function onSubmit(event) {
     event.preventDefault();
-    
-    dispatch(loginUser(formData)).then((data) => {
+    dispatch(loginUser(formData)).then((data: any) => {
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,
         });
         // navigate("/auth/login");
+        setTimeout(() => navigate("/auth/login"), 2000);
       } else {
+        console.log(data?.payload?.message, "toast", toast);
         toast({
-          title: data?.payload?.message,
+          title: "Scheduled: Catch up",
+          description: data?.payload?.message,
           variant: "destructive",
         });
       }
     });
   }
-
+  useEffect(() => {
+    toast({ title: "Test Toast" });
+  }, []);
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
+      <button
+        onClick={() =>
+          toast({
+            title: "Test Toast",
+            description: "This is a test",
+          })
+        }
+      >
+        Trigger Toast
+      </button>
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight text-foreground">
           Login to your account
