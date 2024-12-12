@@ -35,8 +35,8 @@ const registerUser = async (req, res) => {
 };
 
 // login
-const loginUser =async (req,res)=>{
-  const{email,password}=req.body;
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
   try {
     const checkUser = await User.findOne({ email });
     if (!checkUser)
@@ -79,9 +79,38 @@ const loginUser =async (req,res)=>{
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      success:false,
-      message:'Some problem occured.'
-    })
+      success: false,
+      message: "Some problem occured.",
+    });
   }
-}
-module.exports = { registerUser,loginUser };
+};
+
+// logout
+const logoutUser = async (req, res) => {
+  res.clearCookie("token").json({
+    success: true,
+    message: "Logged out successfully!",
+  });
+};
+
+//auth middleware
+const authMiddleware = async (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token)
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorised user!",
+    });
+
+  try {
+    const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: "Unauthorised user!",
+    });
+  }
+};
+module.exports = { registerUser, loginUser, authMiddleware, logoutUser };
