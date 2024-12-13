@@ -8,6 +8,7 @@ import Products from "./pages/admin-view/products";
 import Orders from "./pages/admin-view/orders";
 import Features from "./pages/admin-view/features";
 import CheckAuth from "./components/common/check-auth";
+import UnauthPage from "./pages/unauth-page";
 
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingLayout from "./components/shopping-view/layout";
@@ -16,19 +17,23 @@ import ShoppingListing from "./pages/shopping-view/listing";
 import ShoppingAccounts from "./pages/shopping-view/accounts";
 import ShoppingCheckout from "./pages/shopping-view/checkout";
 import { useEffect } from "react";
-// import { checkAuth } from "./store/auth-slice";
-import { checkAuth } from "@/store/auth-slice";
+import { Skeleton } from "@/components/ui/skeleton";
+import { checkAuth } from "./store/auth-slice";
+import NotFound from "./pages/not-found";
 // import { ToastProvider } from "@/components/ui/use-toast";
 function App() {
-  const { isAuthenticated, user } = useSelector((state: any) => state.auth);
+  const { isAuthenticated, user, isLoading } = useSelector(
+    (state: any) => state.auth
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(checkAuth());
-    // console.log("hello");
   }, [dispatch]);
+  if (isLoading)
+    return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
+
   return (
     <div className="flex flex-col overflow-hidden bg-white">
-      <h1>welcome to earnshop_mern</h1>
       <Routes>
         <Route
           path="/auth"
@@ -71,8 +76,8 @@ function App() {
           <Route path="payment-success" element={<PaymentSuccessPage />} />
           <Route path="search" element={<SearchProducts />} /> */}
         </Route>
-        {/* <Route path="/unauth-page" element={<UnauthPage />} />
-        <Route path="*" element={<NotFound />} /> */}
+        <Route path="/unauth-page" element={<UnauthPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
