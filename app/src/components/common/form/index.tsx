@@ -16,6 +16,7 @@ const CommonForm = ({
   formControls,
   buttonText,
   onSubmit,
+  isBtnDisabled,
 }) => {
   function renderInputsByComponentType(getControlItem) {
     let element = null;
@@ -116,7 +117,7 @@ const CommonForm = ({
           </div>
         ))}
       </div>
-      <Button type="submit" className="mt-2 w-full">
+      <Button disabled={isBtnDisabled} type="submit" className="mt-2 w-full">
         {buttonText || "Submit"}
       </Button>
     </form>
