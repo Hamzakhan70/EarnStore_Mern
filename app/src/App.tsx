@@ -35,6 +35,7 @@ function App() {
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
+
         <Route
           path="/auth"
           element={
@@ -43,6 +44,7 @@ function App() {
             </CheckAuth>
           }
         >
+          <Route index element={<AuthLogin />} />
           <Route path="register" element={<AuthRegister />} />
           <Route path="login" element={<AuthLogin />} />
         </Route>
@@ -60,6 +62,7 @@ function App() {
           <Route path="Dashboard" element={<Dashboard />} />
           <Route path="features" element={<Features />} />
         </Route>
+
         <Route
           path="/shop"
           element={
@@ -76,6 +79,7 @@ function App() {
           <Route path="payment-success" element={<PaymentSuccessPage />} />
           <Route path="search" element={<SearchProducts />} /> */}
         </Route>
+
         <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

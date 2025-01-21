@@ -96,6 +96,7 @@ function AdminProducts() {
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
+  
   return (
     <>
       <div className="mb-5 w-full flex justify-end">

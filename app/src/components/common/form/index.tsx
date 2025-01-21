@@ -2,7 +2,6 @@ import { Button } from "../../ui/button";
 import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
-// import {  Label } from "../ui/button";
 import {
   Select,
   SelectContent,
@@ -10,7 +9,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
-const CommonForm = ({
+interface MyComponentProps {
+  formData: any;
+  setFormData: any;
+  formControls: any;
+  buttonText: string;
+  onSubmit: (event: any) => void;
+  isBtnDisabled?: boolean;
+}
+
+const CommonForm: React.FC<MyComponentProps> = ({
   formData,
   setFormData,
   formControls,
