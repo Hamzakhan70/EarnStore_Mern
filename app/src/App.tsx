@@ -35,6 +35,7 @@ function App() {
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
+
         <Route
           path="/auth"
           element={
@@ -43,6 +44,7 @@ function App() {
             </CheckAuth>
           }
         >
+          <Route index element={<AuthLogin />} />
           <Route path="register" element={<AuthRegister />} />
           <Route path="login" element={<AuthLogin />} />
         </Route>

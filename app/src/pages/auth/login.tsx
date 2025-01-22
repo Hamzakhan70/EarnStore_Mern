@@ -53,6 +53,7 @@ function AuthLogin() {
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
+        
       />
       <p className="mt-2">
         Don't have an account
