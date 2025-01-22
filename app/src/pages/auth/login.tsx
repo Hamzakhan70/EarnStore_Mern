@@ -42,16 +42,6 @@ function AuthLogin() {
   }, []);
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
-      <button
-        onClick={() =>
-          toast({
-            title: "Test Toast",
-            description: "This is a test",
-          })
-        }
-      >
-        Trigger Toast
-      </button>
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight text-foreground">
           Login to your account

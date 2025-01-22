@@ -85,7 +85,6 @@ const CommonForm = ({
         );
 
         break;
-
       default:
         element = (
           <Input

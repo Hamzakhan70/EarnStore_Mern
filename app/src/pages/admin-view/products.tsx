@@ -81,7 +81,7 @@ function AdminProducts() {
             setImageFile(null);
             setFormData(initialFormData);
             toast({
-              title: "Product add successfully",
+              title: "Product added successfully",
             });
           }
         });
@@ -96,6 +96,8 @@ function AdminProducts() {
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
+  // console.log(productList, "-->productList");
+
   return (
     <>
       <div className="mb-5 w-full flex justify-end">
@@ -103,19 +105,23 @@ function AdminProducts() {
           Add New Product
         </Button>
       </div>
+
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {productList && productList.length > 0
           ? productList.map((productItem) => (
-              <AdminProductTile
-                setFormData={setFormData}
-                setOpenCreateProductsDialog={setOpenCreateProductsDialog}
-                setCurrentEditedId={setCurrentEditedId}
-                product={productItem}
-                handleDelete={handleDelete}
-              />
+              <div key={productItem.title}>
+                <AdminProductTile
+                  setFormData={setFormData}
+                  setOpenCreateProductsDialog={setOpenCreateProductsDialog}
+                  setCurrentEditedId={setCurrentEditedId}
+                  product={productItem}
+                  handleDelete={handleDelete}
+                />
+              </div>
             ))
           : null}
       </div>
+
       <Sheet
         open={openCreateProductsDialog}
         onOpenChange={() => {

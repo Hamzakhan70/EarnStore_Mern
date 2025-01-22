@@ -1,13 +1,11 @@
-import { Outlet } from "react-router-dom"
-
-
-function ShoppingLayout(){
-    return (
-
-        <div>
-            <h1>ShoppingLayout</h1>
-            <Outlet />
-        </div>
-    )
+import { Outlet } from "react-router-dom";
+import ShoppingHeader from "./header";
+function ShoppingLayout() {
+  return (
+    <div>
+      <ShoppingHeader />
+      <Outlet />
+    </div>
+  );
 }
-export default ShoppingLayout
+export default ShoppingLayout;

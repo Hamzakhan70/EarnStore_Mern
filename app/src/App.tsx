@@ -60,6 +60,7 @@ function App() {
           <Route path="Dashboard" element={<Dashboard />} />
           <Route path="features" element={<Features />} />
         </Route>
+
         <Route
           path="/shop"
           element={
@@ -76,6 +77,7 @@ function App() {
           <Route path="payment-success" element={<PaymentSuccessPage />} />
           <Route path="search" element={<SearchProducts />} /> */}
         </Route>
+
         <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
