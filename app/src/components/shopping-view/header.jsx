@@ -142,6 +142,7 @@ function ShoppingHeader() {
           <HousePlug className="h-6 w-6" />
           <span className="font-bold">Ecommerce</span>
         </Link>
+        {/* for smaller screen */}
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
@@ -154,6 +155,9 @@ function ShoppingHeader() {
             <HeaderRightContent />
           </SheetContent>
         </Sheet>
+
+        {/* for larg screen */}
+
         <div className="hidden lg:block">
           <MenuItems />
         </div>
