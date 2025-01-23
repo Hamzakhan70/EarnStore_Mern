@@ -1,11 +1,14 @@
+
 import { useState, useEffect } from "react";
 import ProductFilter from "@/components/shopping-view/filter";
+import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDownIcon } from "lucide-react";
 import { sortOptions } from "@/config";
 import { useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,8 +20,26 @@ import {
   fetchAllFilteredProducts,
   fetchProductDetails,
 } from "@/store/shop/products-slice";
+
 import ShoppingProductTile from "./product-tile";
-const ShoppingListing = () => {
+
+function createSearchParamsHelper(filterParams) {
+  const queryParams = [];
+
+  for (const [key, value] of Object.entries(filterParams)) {
+    if (Array.isArray(value) && value.length > 0) {
+      const paramValue = value.join(",");
+
+      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+    }
+  }
+
+  console.log(queryParams, "queryParams");
+
+  return queryParams.join("&");
+}
+
+function ShoppingListing() {
   const dispatch = useDispatch();
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
@@ -32,6 +53,7 @@ const ShoppingListing = () => {
   const { toast } = useToast();
 
   const categorySearchParam = searchParams.get("category");
+
   function handleSort(value) {
     setSort(value);
   }
@@ -57,6 +79,7 @@ const ShoppingListing = () => {
     setFilters(cpyFilters);
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
   }
+
   function handleGetProductDetails(getCurrentProductId) {
     console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId));
@@ -120,9 +143,11 @@ const ShoppingListing = () => {
 
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
+    console.log(productDetails,'this is product details');
+    
   }, [productDetails]);
 
-  console.log(productList, "ListproductList");
+  console.log(productList, "productListproductListproductList");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -160,7 +185,6 @@ const ShoppingListing = () => {
             </DropdownMenu>
           </div>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {productList && productList.length > 0
             ? productList.map((productItem) => (
@@ -173,8 +197,13 @@ const ShoppingListing = () => {
             : null}
         </div>
       </div>
+      <ProductDetailsDialog
+        open={openDetailsDialog}
+        setOpen={setOpenDetailsDialog}
+        productDetails={productDetails}
+      />
     </div>
   );
-};
+}
 
 export default ShoppingListing;
