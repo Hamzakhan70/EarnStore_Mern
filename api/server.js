@@ -1,4 +1,5 @@
 const express = require("express");
+// import Features from './../app/src/pages/admin-view/features';
 const mongoose = require("mongoose");
 const cors = require("cors");
 
@@ -6,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth/auth-routes");
 const adminProductsRouter = require("./routes/admin/products-routes");
 const shopProductsRouter = require("./routes/shop/products-routes");
+const FeaturesProductsRouter = require("./routes/common/feature-routes");
 mongoose
   .connect("mongodb://127.0.0.1:27017/realtime-ecom-store")
   .then(() => console.log("MongoDB connected"))
@@ -32,4 +34,5 @@ app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
 // app.use("/api/admin/orders", adminOrderRouter);
 app.use("/api/shop/products", shopProductsRouter);
+app.use("/api/common/feature", FeaturesProductsRouter);
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
