@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import ProductFilter from "@/components/shopping-view/filter";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
@@ -143,11 +142,8 @@ function ShoppingListing() {
 
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
-    console.log(productDetails,'this is product details');
-    
+    console.log(productDetails, "this is product details");
   }, [productDetails]);
-
-  console.log(productList, "productListproductListproductList");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
