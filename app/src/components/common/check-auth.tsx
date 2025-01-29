@@ -1,24 +1,23 @@
-//  interface checkAuthInterface{
-//     isAuthenticated:Boolean,
-//     user:Object,
-
-// }
 import { Navigate, useLocation } from "react-router-dom";
-const CheckAuth = ({ isAuthenticated, user, children }) => {
-  const location = useLocation();
-  // console.log(location, isAuthenticated, user);
+interface CheckAuthProps {
+  isAuthenticated: boolean;
+  user?: { role?: string }; // User is optional, and role is also optional
+  children?: React.ReactNode; // Children is optional
+}
 
-  //   if (location.pathname === "/") {
-  //     if (!isAuthenticated) {
-  //       return <Navigate to="/auth/login" />;
-  //     } else {
-  //       if (user?.role === "admin") {
-  //         return <Navigate to="/admin/dashboard" />;
-  //       } else {
-  //         return <Navigate to="/shop/home" />;
-  //       }
-  //     }
-  //   }
+const CheckAuth: React.FC<CheckAuthProps> = ({ isAuthenticated, user, children }) => {
+  const location = useLocation();
+    if (location.pathname === "/") {
+      if (!isAuthenticated) {
+        return <Navigate to="/auth/login" />;
+      } else {
+        if (user?.role === "admin") {
+          return <Navigate to="/admin/dashboard" />;
+        } else {
+          return <Navigate to="/shop/home" />;
+        }
+      }
+    }
 
   if (
     !isAuthenticated &&

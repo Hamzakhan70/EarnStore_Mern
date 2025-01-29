@@ -3,7 +3,7 @@ import AuthLayout from "./components/auth/layout";
 import AuthRegister from "./pages/auth/register";
 import AuthLogin from "./pages/auth/login";
 import AdminLayout from "./components/admin-view/layout";
-import Dashboard from "./pages/admin-view/dashboard";
+
 import Products from "./pages/admin-view/products";
 import Orders from "./pages/admin-view/orders";
 import Features from "./pages/admin-view/features";
@@ -21,6 +21,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { checkAuth } from "./store/auth-slice";
 import NotFound from "./pages/not-found";
 // import { ToastProvider } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster"
+import AdminDashboard from "./pages/admin-view/dashboard";
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
     (state: any) => state.auth
@@ -29,12 +31,25 @@ function App() {
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
+  console.log(isAuthenticated,'is authenticated');
   if (isLoading)
     return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
+        <Toaster />
       <Routes>
+
+      <Route
+          path="/"
+          element={
+            <CheckAuth
+              isAuthenticated={isAuthenticated}
+              user={user}
+            ></CheckAuth>
+          }
+        />
+
         <Route
           path="/auth"
           element={
@@ -58,7 +73,7 @@ function App() {
         >
           <Route path="Products" element={<Products />} />
           <Route path="Orders" element={<Orders />} />
-          <Route path="Dashboard" element={<Dashboard />} />
+          <Route path="Dashboard" element={<AdminDashboard />} />
           <Route path="features" element={<Features />} />
         </Route>
 

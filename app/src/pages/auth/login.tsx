@@ -1,5 +1,6 @@
 import CommonForm from "@/components/common/form";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast"
+
 import { loginFormControls } from "@/config";
 import { loginUser } from "@/store/auth-slice";
 import { useEffect, useState } from "react";
@@ -21,12 +22,11 @@ function AuthLogin() {
   function onSubmit(event) {
     event.preventDefault();
     dispatch(loginUser(formData)).then((data: any) => {
+      console.log(data,'this is response')
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,
         });
-        // navigate("/auth/login");
-        setTimeout(() => navigate("/auth/login"), 2000);
       } else {
         console.log(data?.payload?.message, "toast", toast);
         toast({
@@ -37,9 +37,7 @@ function AuthLogin() {
       }
     });
   }
-  useEffect(() => {
-    toast({ title: "Test Toast" });
-  }, []);
+
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="text-center">
