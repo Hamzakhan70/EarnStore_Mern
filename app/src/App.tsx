@@ -21,7 +21,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { checkAuth } from "./store/auth-slice";
 import NotFound from "./pages/not-found";
 // import { ToastProvider } from "@/components/ui/use-toast";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 import AdminDashboard from "./pages/admin-view/dashboard";
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -31,16 +31,15 @@ function App() {
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
-  console.log(isAuthenticated,'is authenticated');
+
   if (isLoading)
     return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
-        <Toaster />
+      <Toaster />
       <Routes>
-
-      <Route
+        <Route
           path="/"
           element={
             <CheckAuth
