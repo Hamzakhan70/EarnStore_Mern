@@ -9,6 +9,7 @@ const adminProductsRouter = require("./routes/admin/products-routes");
 const shopProductsRouter = require("./routes/shop/products-routes");
 const FeaturesProductsRouter = require("./routes/common/feature-routes");
 const SearchProductsRouter = require("./routes/shop/search-routes");
+const AddressProductsRouter = require("./routes/shop/address-routes");
 mongoose
   .connect("mongodb://127.0.0.1:27017/realtime-ecom-store")
   .then(() => console.log("MongoDB connected"))
@@ -37,4 +38,5 @@ app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shop/products", shopProductsRouter);
 app.use("/api/common/feature", FeaturesProductsRouter);
 app.use("/api/shop/search", SearchProductsRouter);
+app.use("/api/shop/address", AddressProductsRouter);
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
