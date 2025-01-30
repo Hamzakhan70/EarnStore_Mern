@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+
 const initialState = {
   isLoading: false,
   productList: [],
   productDetails: null,
 };
+
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchAllProducts",
   async ({ filterParams, sortParams }) => {
@@ -24,6 +26,7 @@ export const fetchAllFilteredProducts = createAsyncThunk(
     return result?.data;
   }
 );
+
 export const fetchProductDetails = createAsyncThunk(
   "/products/fetchProductDetails",
   async (id) => {
@@ -34,7 +37,8 @@ export const fetchProductDetails = createAsyncThunk(
     return result?.data;
   }
 );
-const shoppingProductsSlice = createSlice({
+
+const shoppingProductSlice = createSlice({
   name: "shoppingProducts",
   initialState,
   reducers: {
@@ -69,5 +73,6 @@ const shoppingProductsSlice = createSlice({
   },
 });
 
-export const { setProductDetails } = shoppingProductsSlice.actions;
-export default shoppingProductsSlice.reducer;
+export const { setProductDetails } = shoppingProductSlice.actions;
+
+export default shoppingProductSlice.reducer;
