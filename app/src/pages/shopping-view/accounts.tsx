@@ -1,6 +1,7 @@
 import accImg from "../../assets/account.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import Address from "../../components/shopping-view/address";
+// import ShoppingOrders from "@/components/shopping-view/orders";
 function ShoppingAccounts() {
   return (
     <div className="flex flex-col">
@@ -18,7 +19,9 @@ function ShoppingAccounts() {
               <TabsTrigger value="address">Address</TabsTrigger>
             </TabsList>
             <TabsContent value="orders">{/* <ShoppingOrders /> */}</TabsContent>
-            <TabsContent value="address">{/* <Address /> */}</TabsContent>
+            <TabsContent value="address">
+              <Address />
+            </TabsContent>
           </Tabs>
         </div>
       </div>
