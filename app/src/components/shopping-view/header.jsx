@@ -19,9 +19,9 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { logoutUser } from "@/store/auth-slice";
-// import UserCartWrapper from "./cart-wrapper";
+import UserCartWrapper from "./cart-wrapper";
 import { useEffect, useState } from "react";
-// import { fetchCartItems } from "@/store/shop/cart-slice";
+import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
 
 function MenuItems() {
@@ -66,7 +66,7 @@ function MenuItems() {
 
 function HeaderRightContent() {
   const { user } = useSelector((state) => state.auth);
-  //   const { cartItems } = useSelector((state) => state.shopCart);
+    const { cartItems } = useSelector((state) => state.shopCart);
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -75,11 +75,11 @@ function HeaderRightContent() {
     dispatch(logoutUser());
   }
 
-  //   useEffect(() => {
-  //     dispatch(fetchCartItems(user?.id));
-  //   }, [dispatch]);
+    useEffect(() => {
+      dispatch(fetchCartItems(user?.id));
+    }, [dispatch]);
 
-  //   console.log(cartItems, "sangam");
+    console.log(cartItems, "sangam");
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
@@ -92,18 +92,18 @@ function HeaderRightContent() {
         >
           <ShoppingCart className="w-6 h-6" />
           <span className="absolute top-[-5px] right-[2px] font-bold text-sm">
-            {/* {cartItems?.items?.length || 0} */}
+            {cartItems?.items?.length || 0}
           </span>
           <span className="sr-only">User cart</span>
         </Button>
-        {/* <UserCartWrapper
+        <UserCartWrapper
           setOpenCartSheet={setOpenCartSheet}
           cartItems={
             cartItems && cartItems.items && cartItems.items.length > 0
               ? cartItems.items
               : []
           }
-        /> */}
+        />
       </Sheet>
 
       <DropdownMenu>
@@ -134,7 +134,6 @@ function HeaderRightContent() {
 
 function ShoppingHeader() {
   const { isAuthenticated } = useSelector((state) => state.auth);
-
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
