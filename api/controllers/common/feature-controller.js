@@ -41,5 +41,39 @@ const getFeatureImages = async (req, res) => {
     });
   }
 };
+const deleteFeatureImage = async (req, res) => {
+  try {
+    const { image_url } = req.body; // Get image URL from request body
 
-module.exports = { addFeatureImage, getFeatureImages };
+    if (!image_url) {
+      return res.status(400).json({
+        success: false,
+        message: "Image URL is required!",
+      });
+    }
+
+    // Find and delete the image based on the URL
+    const deletedImage = await Feature.findOneAndDelete({ image: image_url });
+
+    if (!deletedImage) {
+      return res.status(404).json({
+        success: false,
+        message: "Image not found!",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Feature image deleted successfully!",
+      data: deletedImage,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred!",
+    });
+  }
+};
+
+module.exports = { addFeatureImage, getFeatureImages, deleteFeatureImage };
