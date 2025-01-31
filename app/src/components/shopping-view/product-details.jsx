@@ -11,7 +11,7 @@ import { setProductDetails } from "@/store/shop/products-slice";
 import { Label } from "../ui/label";
 import StarRatingComponent from "../common/star-rating";
 import { useEffect, useState } from "react";
-// import { addReview, getReviews } from "@/store/shop/review-slice";
+import { addReview, getReviews } from "@/store/shop/review-slice";
 
 import { Button } from "../ui/button";
 
@@ -21,8 +21,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
-  // const { reviews } = useSelector((state) => state.shopReview);
-  const reviews = "";
+  const { reviews } = useSelector((state) => state.shopReview);
 
   const { toast } = useToast();
 
@@ -213,8 +212,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                 placeholder="Write a review..."
               />
               <Button
-              // onClick={handleAddReview}
-              // disabled={reviewMsg.trim() === ""}
+                onClick={handleAddReview}
+                disabled={reviewMsg.trim() === ""}
               >
                 Submit
               </Button>

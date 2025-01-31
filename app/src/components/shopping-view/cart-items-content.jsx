@@ -70,7 +70,7 @@ function UserCartItemsContent({ cartItem }) {
       }
     });
   }
-
+  console.log(productList, "product-list--");
   return (
     <div className="flex items-center space-x-4">
       <img
@@ -99,7 +99,7 @@ function UserCartItemsContent({ cartItem }) {
             onClick={() => handleUpdateQuantity(cartItem, "plus")}
           >
             <Plus className="w-4 h-4" />
-            <span className="sr-only">Decrease</span>
+            <span className="sr-only">increase</span>
           </Button>
         </div>
       </div>
