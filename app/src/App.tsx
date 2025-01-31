@@ -1,3 +1,8 @@
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe(
+  "pk_test_51QnJ8rG65GHyV20cLIpMAqP31u0kmu7bmoqLYvQSAtB6LXzrwY0jxiPs36H0wDTVgl3qOVuLQ6hLQ2i0AYVBX2ak00HeDPHABu"
+);
 import { Route, Routes } from "react-router-dom";
 import AuthLayout from "./components/auth/layout";
 import AuthRegister from "./pages/auth/register";
@@ -87,7 +92,14 @@ function App() {
         >
           <Route path="home" element={<ShoppingHome />} />
           <Route path="listing" element={<ShoppingListing />} />
-          <Route path="checkout" element={<ShoppingCheckout />} />
+          <Route
+            path="checkout"
+            element={
+              <Elements stripe={stripePromise}>
+                <ShoppingCheckout />
+              </Elements>
+            }
+          />
           <Route path="account" element={<ShoppingAccounts />} />
           {
             /* <Route path="paypal-return" element={<PaypalReturnPage />} />
