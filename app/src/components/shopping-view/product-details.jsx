@@ -22,7 +22,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
   // const { reviews } = useSelector((state) => state.shopReview);
-  const  reviews ="";
+  const reviews = "";
 
   const { toast } = useToast();
 
@@ -95,9 +95,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
     });
   }
 
-  // useEffect(() => {
-  //   if (productDetails !== null) dispatch(getReviews(productDetails?._id));
-  // }, [productDetails]);
+  useEffect(() => {
+    if (productDetails !== null) dispatch(getReviews(productDetails?._id));
+  }, [productDetails]);
 
   console.log(reviews, "reviews");
 
@@ -106,9 +106,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
       ? reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
         reviews.length
       : 0;
-useEffect(()=>{
-  console.log(setOpen,'this is setopen',open)
-},[])
+  useEffect(() => {
+    console.log(setOpen, "this is setopen", open);
+  }, []);
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
       <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
@@ -213,8 +213,8 @@ useEffect(()=>{
                 placeholder="Write a review..."
               />
               <Button
-                // onClick={handleAddReview}
-                // disabled={reviewMsg.trim() === ""}
+              // onClick={handleAddReview}
+              // disabled={reviewMsg.trim() === ""}
               >
                 Submit
               </Button>
