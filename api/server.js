@@ -6,6 +6,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth/auth-routes");
 const adminProductsRouter = require("./routes/admin/products-routes");
+const adminOrderRouter = require("./routes/admin/order-routes");
 const shopProductsRouter = require("./routes/shop/products-routes");
 const FeaturesProductsRouter = require("./routes/common/feature-routes");
 const SearchProductsRouter = require("./routes/shop/search-routes");
@@ -13,6 +14,7 @@ const AddressProductsRouter = require("./routes/shop/address-routes");
 const CartProductsRouter = require("./routes/shop/cart-routes");
 const shopReviewRouter = require("./routes/shop/review-routes");
 const shopOrderRouter = require("./routes/shop/order-routes");
+const stripeRoutes = require("./routes/stripe/stripe");
 mongoose
   .connect("mongodb://127.0.0.1:27017/realtime-ecom-store")
   .then(() => console.log("MongoDB connected"))
@@ -37,7 +39,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
-// app.use("/api/admin/orders", adminOrderRouter);
+app.use("/api/admin/orders", adminOrderRouter);
 app.use("/api/shop/products", shopProductsRouter);
 app.use("/api/common/feature", FeaturesProductsRouter);
 app.use("/api/shop/search", SearchProductsRouter);
@@ -45,4 +47,5 @@ app.use("/api/shop/address", AddressProductsRouter);
 app.use("/api/shop/cart", CartProductsRouter);
 app.use("/api/shop/review", shopReviewRouter);
 app.use("/api/shop/order", shopOrderRouter);
+app.use("/api/stripe", stripeRoutes);
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
