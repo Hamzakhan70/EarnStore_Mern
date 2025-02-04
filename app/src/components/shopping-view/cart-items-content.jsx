@@ -25,7 +25,8 @@ function UserCartItemsContent({ cartItem }) {
         );
         const getTotalStock = productList[getCurrentProductIndex].totalStock;
 
-        console.log(getCurrentProductIndex, getTotalStock, "getTotalStock");
+     
+
 
         if (indexOfCurrentCartItem > -1) {
           const getQuantity = getCartItems[indexOfCurrentCartItem].quantity;
@@ -70,7 +71,7 @@ function UserCartItemsContent({ cartItem }) {
       }
     });
   }
-  console.log(productList, "product-list--");
+
   return (
     <div className="flex items-center space-x-4">
       <img

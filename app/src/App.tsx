@@ -22,15 +22,17 @@ import SearchProducts from "./pages/shopping-view/search";
 import ShoppingListing from "./pages/shopping-view/listing";
 import ShoppingAccounts from "./pages/shopping-view/accounts";
 import ShoppingCheckout from "./pages/shopping-view/checkout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { checkAuth } from "./store/auth-slice";
 import NotFound from "./pages/not-found";
 // import { ToastProvider } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import AdminDashboard from "./pages/admin-view/dashboard";
+
 function App() {
   
+  const [clientSecret, setClientSecret] = useState("");
   const { isAuthenticated, user, isLoading } = useSelector(
     (state: any) => state.auth
   );
@@ -39,9 +41,23 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
+ 
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/stripe/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: 2000, currency: "usd" }), // amount in cents
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  }, []);
+
+  const options = {
+    clientSecret,
+  };
   if (isLoading)
     return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
-
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Toaster />
@@ -96,11 +112,10 @@ function App() {
           <Route
             path="checkout"
             element={
-              <Elements stripe={stripePromise}>
+              <Elements stripe={stripePromise} options={options}>
                 <ShoppingCheckout />
               </Elements>
-            }
-          />
+            }/>
           <Route path="account" element={<ShoppingAccounts />} />
           {
             /* <Route path="paypal-return" element={<PaypalReturnPage />} />

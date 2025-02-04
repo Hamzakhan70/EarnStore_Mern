@@ -1,3 +1,4 @@
+import {PaymentElement} from '@stripe/react-stripe-js';
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -35,7 +36,7 @@ function ShoppingCheckout() {
   const dispatch = useDispatch();
   const { toast } = useToast();
 
-  console.log(currentSelectedAddress, "cartItems");
+
 
   const totalCartAmount =
     cartItems && cartItems.items && cartItems.items.length > 0
@@ -138,64 +139,64 @@ function ShoppingCheckout() {
   //   }
   //   setLoading(false);
   // };
-  const handlePayment = async () => {
-    if (!stripe || !elements) {
-      console.error("Stripe or Elements not initialized.");
-      return;
-    }
-  
-    setLoading(true);
-  
-    // Get Card Element
-    const cardElement = elements.getElement(CardElement);
-    if (!cardElement) {
-      console.error("CardElement not found!");
-      setLoading(false);
-      return;
-    }
-  
-    try {
-      // Send request to backend to create Payment Intent
-      const response = await fetch(
-        "http://localhost:5000/api/stripe/create-payment-intent",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: 2000, currency: "usd" }), // Amount in cents
-        }
-      );
-  
-      const data = await response.json();
-      if (!data.clientSecret) {
-        throw new Error("Failed to fetch clientSecret from backend");
-      }
-  
-      // Confirm Card Payment
-      const result = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: { card: cardElement },
-      });
-  
-      if (result.error) {
-        console.error("Payment failed:", result.error.message);
-        alert(result.error.message);
-      } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
-        console.log("Payment successful:", result.paymentIntent);
-        alert("Payment successful!");
-      }
-    } catch (error) {
-      console.error("Payment Error:", error);
-      alert("Something went wrong. Please try again.");
-    }
-  
+const handlePayment = async () => {
+  if (!stripe || !elements) {
+    console.error("Stripe or Elements not initialized.");
+    return;
+  }
+
+  setLoading(true);
+
+  // Get Card Element
+  const cardElement = elements.getElement(CardElement);
+  if (!cardElement) {
+    console.error("CardElement not found!");
     setLoading(false);
-  };
-  
+    return;
+  }
+
+  try {
+    // Send request to backend to create Payment Intent
+    const response = await fetch(
+      "http://localhost:5000/api/stripe/create-payment-intent",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: 2000, currency: "usd" }), // Amount in cents
+      }
+    );
+
+    const data = await response.json();
+    if (!data.clientSecret) {
+      throw new Error("Failed to fetch clientSecret from backend");
+    }
+
+    // Confirm Card Payment
+    const result = await stripe.confirmCardPayment(data.clientSecret, {
+      payment_method: { card: cardElement },
+    });
+
+    if (result.error) {
+      console.error("Payment failed:", result.error.message);
+      alert(result.error.message);
+    } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
+      console.log("Payment successful:", result.paymentIntent);
+      alert("Payment successful!");
+    }
+  } catch (error) {
+    console.error("Payment Error:", error);
+    alert("Something went wrong. Please try again.");
+  }
+
+  setLoading(false);
+};
+
   if (approvalURL) {
     window.location.href = approvalURL;
   }
 
   return (
-   
+ 
       <div className="flex flex-col">
         <div className="relative h-[300px] w-full overflow-hidden">
           <img src={img} className="h-full w-full object-cover object-center" />
@@ -224,22 +225,18 @@ function ShoppingCheckout() {
                 : "Checkout with Paypal"}
             </Button> */}
               {/* stripe payment */}
-              <CardElement />
-      <button
-        onClick={handlePayment}
-        disabled={loading}
-        style={{ marginTop: "20px" }}
-      >
-        {loading ? "Processing..." : "Pay Now"}
-      </button>
-    
+              {/* <PaymentElement /> */}
+              <CardElement/>
+              <button onClick={handlePayment} disabled={loading || !stripe}>
+                {loading ? "Processing..." : "Pay Now"}
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-
   );
 }
 
 export default ShoppingCheckout;
+
