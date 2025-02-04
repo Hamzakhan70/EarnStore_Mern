@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { getFeatureImages } from "@/store/common-slice";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import ShoppingProductTile from "../../components/shopping-view/product-tile";
+import { addToCart, fetchCartItems } from "../../store/shop/cart-slice";
 import {
   fetchAllFilteredProducts,
   fetchProductDetails,
 } from "@/store/shop/products-slice";
-import bannerOne from "../../assets/banner-1.webp";
-import bannerTwo from "../../assets/banner-2.webp";
-import bannerThree from "../../assets/banner-3.webp";
 import {
   Airplay,
   BabyIcon,
@@ -36,7 +34,6 @@ const categoriesWithIcon = [
   { id: "accessories", label: "Accessories", icon: WatchIcon },
   { id: "footwear", label: "Footwear", icon: UmbrellaIcon },
 ];
-
 const brandsWithIcon = [
   { id: "nike", label: "Nike", icon: Shirt },
   { id: "adidas", label: "Adidas", icon: WashingMachine },
@@ -45,7 +42,6 @@ const brandsWithIcon = [
   { id: "zara", label: "Zara", icon: Images },
   { id: "h&m", label: "H&M", icon: Heater },
 ];
-
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { productList, productDetails } = useSelector(
@@ -57,7 +53,6 @@ function ShoppingHome() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
-
   function handleNavigateToListingPage(getCurrentItem, section) {
     sessionStorage.removeItem("filters");
     const currentFilter = {
@@ -66,26 +61,24 @@ function ShoppingHome() {
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
     navigate(`/shop/listing`);
   }
-
   function handleGetProductDetails(getCurrentProductId) {
     dispatch(fetchProductDetails(getCurrentProductId));
   }
-
   function handleAddtoCart(getCurrentProductId) {
-    // dispatch(
-    //   addToCart({
-    //     userId: user?.id,
-    //     productId: getCurrentProductId,
-    //     quantity: 1,
-    //   })
-    // ).then((data) => {
-    //   if (data?.payload?.success) {
-    //     dispatch(fetchCartItems(user?.id));
-    //     toast({
-    //       title: "Product is added to cart",
-    //     });
-    //   }
-    // });
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: getCurrentProductId,
+        quantity: 1,
+      })
+    ).then((data:any) => {
+      if (data?.payload?.success) {
+        dispatch(fetchCartItems(user?.id));
+        toast({
+          title: "Product is added to cart",
+        });
+      }
+    });
   }
   useEffect(() => {
     dispatch(
@@ -105,7 +98,6 @@ function ShoppingHome() {
   useEffect(() => {
     dispatch(getFeatureImages());
   }, [dispatch]);
-
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);

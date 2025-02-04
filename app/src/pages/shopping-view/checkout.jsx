@@ -112,39 +112,90 @@ function ShoppingCheckout() {
 
   // this is stripe
 
+  // const handlePayment = async () => {
+  //   if (!stripe || !elements) return;
+
+  //   setLoading(true);
+  //   const response = await fetch(
+  //     "http://localhost:5000/api/stripe/create-payment-intent",
+  //     {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ amount: 20, currency: "usd" }), // Adjust amount & currency
+  //     }
+  //   );
+
+  //   const { clientSecret } = await response.json();
+
+  //   const result = await stripe.confirmCardPayment(clientSecret, {
+  //     payment_method: { card: elements.getElement(CardElement) },
+  //   });
+
+  //   if (result.error) {
+  //     alert(result.error.message);
+  //   } else if (result.paymentIntent.status === "succeeded") {
+  //     alert("Payment successful!");
+  //   }
+  //   setLoading(false);
+  // };
   const handlePayment = async () => {
-    if (!stripe || !elements) return;
-
-    setLoading(true);
-    const response = await fetch(
-      "http://localhost:5000/api/stripe/create-payment-intent",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: 20, currency: "usd" }), // Adjust amount & currency
-      }
-    );
-
-    const { clientSecret } = await response.json();
-
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: { card: elements.getElement(CardElement) },
-    });
-
-    if (result.error) {
-      alert(result.error.message);
-    } else if (result.paymentIntent.status === "succeeded") {
-      alert("Payment successful!");
+    if (!stripe || !elements) {
+      console.error("Stripe or Elements not initialized.");
+      return;
     }
+  
+    setLoading(true);
+  
+    // Get Card Element
+    const cardElement = elements.getElement(CardElement);
+    if (!cardElement) {
+      console.error("CardElement not found!");
+      setLoading(false);
+      return;
+    }
+  
+    try {
+      // Send request to backend to create Payment Intent
+      const response = await fetch(
+        "http://localhost:5000/api/stripe/create-payment-intent",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: 2000, currency: "usd" }), // Amount in cents
+        }
+      );
+  
+      const data = await response.json();
+      if (!data.clientSecret) {
+        throw new Error("Failed to fetch clientSecret from backend");
+      }
+  
+      // Confirm Card Payment
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: { card: cardElement },
+      });
+  
+      if (result.error) {
+        console.error("Payment failed:", result.error.message);
+        alert(result.error.message);
+      } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
+        console.log("Payment successful:", result.paymentIntent);
+        alert("Payment successful!");
+      }
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  
     setLoading(false);
   };
-
+  
   if (approvalURL) {
     window.location.href = approvalURL;
   }
 
   return (
-    <Elements stripe={stripePromise}>
+   
       <div className="flex flex-col">
         <div className="relative h-[300px] w-full overflow-hidden">
           <img src={img} className="h-full w-full object-cover object-center" />
@@ -173,14 +224,21 @@ function ShoppingCheckout() {
                 : "Checkout with Paypal"}
             </Button> */}
               {/* stripe payment */}
-              <button onClick={handlePayment} disabled={loading || !stripe}>
-                {loading ? "Processing..." : "Pay Now"}
-              </button>
+              <CardElement />
+      <button
+        onClick={handlePayment}
+        disabled={loading}
+        style={{ marginTop: "20px" }}
+      >
+        {loading ? "Processing..." : "Pay Now"}
+      </button>
+    
             </div>
           </div>
         </div>
       </div>
-    </Elements>
+
+
   );
 }
 

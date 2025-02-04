@@ -1,14 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-
 import axios from "axios";
-
 const initialState = {
   isAuthenticated: false,
   isLoading: true,
   user: null,
 };
-
 export const registerUser = createAsyncThunk(
   "/auth/register",
   async (formData) => {
@@ -26,8 +22,6 @@ export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
     formData,
     { withCredentials: true }
   );
-
-
   return response.data;
 });
 export const logoutUser = createAsyncThunk(
@@ -88,7 +82,6 @@ const authSlice = createSlice({
       .addCase(loginUser.pending, (state,action) => {
         state.isLoading = true;
         state.isAuthenticated=false;
-        console.log('this is login pending',action,state)
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         (state.isLoading = false),

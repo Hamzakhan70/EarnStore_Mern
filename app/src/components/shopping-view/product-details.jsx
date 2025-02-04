@@ -98,16 +98,13 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
     if (productDetails !== null) dispatch(getReviews(productDetails?._id));
   }, [productDetails]);
 
-  console.log(reviews, "reviews");
 
   const averageReview =
     reviews && reviews.length > 0
       ? reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
         reviews.length
       : 0;
-  useEffect(() => {
-    console.log(setOpen, "this is setopen", open);
-  }, []);
+ 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
       <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">

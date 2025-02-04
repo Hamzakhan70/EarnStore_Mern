@@ -30,6 +30,7 @@ import NotFound from "./pages/not-found";
 import { Toaster } from "@/components/ui/toaster";
 import AdminDashboard from "./pages/admin-view/dashboard";
 function App() {
+  
   const { isAuthenticated, user, isLoading } = useSelector(
     (state: any) => state.auth
   );

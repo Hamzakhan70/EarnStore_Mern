@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpDownIcon } from "lucide-react";
 import { sortOptions } from "@/config";
 import { useSearchParams } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { addToCart, fetchCartItems } from "../../store/shop/cart-slice";
 
 import {
@@ -34,7 +34,7 @@ function createSearchParamsHelper(filterParams) {
     }
   }
 
-  // console.log(queryParams, "queryParams");
+
 
   return queryParams.join("&");
 }
