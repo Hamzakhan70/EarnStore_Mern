@@ -1,5 +1,5 @@
 import CommonForm from "@/components/common/form";
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast";
 
 import { loginFormControls } from "@/config";
 import { loginUser } from "@/store/auth-slice";
@@ -22,7 +22,6 @@ function AuthLogin() {
   function onSubmit(event) {
     event.preventDefault();
     dispatch(loginUser(formData)).then((data: any) => {
-      console.log(data,'this is response')
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,
@@ -51,7 +50,6 @@ function AuthLogin() {
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
-        
       />
       <p className="mt-2">
         Don't have an account
