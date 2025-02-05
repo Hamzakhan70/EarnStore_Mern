@@ -21,21 +21,21 @@ mongoose
   .catch((error) => console.log(error));
 const app = express();
 const PORT = process.env.PORT || 5000;
-// app.use(
-//   cors({
-//     origin: process.env.URL || "http://localhost:3000",
-//     methods: ["GET", "POST", "DELETE", "PUT"],
-//     allowedHeaders: [
-//       "Content-Type",
-//       "Authorization",
-//       "Cache-Control",
-//       "Expires",
-//       "Pragma",
-//     ],
-//     credentials: true,
-//   })
-// );
-app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use(
+  cors({
+    origin: "*",
+    // origin: process.env.URL || "http://localhost:3000",
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Cache-Control",
+      "Expires",
+      "Pragma",
+    ],
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());
