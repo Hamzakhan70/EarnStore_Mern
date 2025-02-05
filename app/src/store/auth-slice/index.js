@@ -18,7 +18,8 @@ export const registerUser = createAsyncThunk(
 );
 console.log("Backend URL:", BASE_URL);
 export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
-  const response = await axios.post(`${BASE_URL}/auth/login`, formData, {
+  // const response = await axios.post(`${BASE_URL}/auth/login`, formData, {
+  const response = await axios.post(`https://earnstoremern-production.up.railway.app/api/auth/login`, formData, {
     withCredentials: true,
   });
   return response.data;
