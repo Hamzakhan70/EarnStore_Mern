@@ -15,15 +15,31 @@ const CartProductsRouter = require("./routes/shop/cart-routes");
 const shopReviewRouter = require("./routes/shop/review-routes");
 const shopOrderRouter = require("./routes/shop/order-routes");
 const stripeRoutes = require("./routes/stripe/stripe");
+
 mongoose
   .connect("mongodb://127.0.0.1:27017/realtime-ecom-store")
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.log(error));
 const app = express();
 const PORT = process.env.PORT || 5000;
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://earnmern-store-5rbnhudqb-hamza-khans-projects-02f50111.vercel.app",
+];
+app.options("*", cors()); // Handle preflight requests
 app.use(
   cors({
-    origin: process.env.URL,
+    // origin: function (origin, callback) {
+    //   if (!origin || allowedOrigins.includes(origin)) {
+    //     callback(null, true);
+    //   } else {
+    //     callback(new Error("Not allowed by CORS"));
+    //   }
+    // },
+    origin: [
+      "https://earnmern-store-5rbnhudqb-hamza-khans-projects-02f50111.vercel.app",
+      "http://localhost:3000",
+    ],
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
@@ -35,6 +51,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(cookieParser());
 app.use(express.json());
 app.get('/', (req, res) => {

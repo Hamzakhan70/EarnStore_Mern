@@ -27,7 +27,6 @@ function AuthLogin() {
           title: data?.payload?.message,
         });
       } else {
-        console.log(data?.payload?.message, "toast", toast);
         toast({
           title: "Scheduled: Catch up",
           description: data?.payload?.message,
