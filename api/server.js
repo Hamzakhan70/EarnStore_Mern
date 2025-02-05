@@ -37,6 +37,9 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
+app.get('/', (req, res) => {
+  res.send('Backend is running!');
+});
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/admin/orders", adminOrderRouter);
