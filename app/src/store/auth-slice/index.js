@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 const initialState = {
   isAuthenticated: false,
   isLoading: true,
@@ -9,26 +9,25 @@ const initialState = {
 export const registerUser = createAsyncThunk(
   "/auth/register",
   async (formData) => {
-    const response = await axios.post(`${BASE_URL}/auth/register`,
-      formData,
-      { withCredentials: true }
-    );
+    const response = await axios.post(`${BASE_URL}/auth/register`, formData, {
+      withCredentials: true,
+    });
     return response;
   }
 );
 console.log("Backend URL:", BASE_URL);
 export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
-  const response = await axios.post(`${BASE_URL}/auth/login`,
-    formData,
-    { withCredentials: true }
-  );
+  const response = await axios.post(`${BASE_URL}/auth/login`, formData, {
+    withCredentials: true,
+  });
   return response.data;
 });
 export const logoutUser = createAsyncThunk(
   "/auth/logout",
 
   async () => {
-    const response = await axios.post(`${BASE_URL}/auth/logout`,
+    const response = await axios.post(
+      `${BASE_URL}/auth/logout`,
       {},
       {
         withCredentials: true,
@@ -39,22 +38,16 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-export const checkAuth = createAsyncThunk(
-  "/auth/checkauth",
-  async () => {
-    const response = await axios.post(`${BASE_URL}/auth/check-auth`,
-      {
-        withCredentials: true,
-        headers: {
-          "Cache-Control":
-            "no-store, no-cache, must-revalidate, proxy-revalidate",
-        },
-      }
-    );
+export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
+  const response = await axios.post(`${BASE_URL}/auth/check-auth`, {
+    withCredentials: true,
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    },
+  });
 
-    return response.data;
-  }
-);
+  return response.data;
+});
 
 const authSlice = createSlice({
   name: "auth",
@@ -77,9 +70,9 @@ const authSlice = createSlice({
           (state.isAuthenticated = false),
           (state.user = null);
       })
-      .addCase(loginUser.pending, (state,action) => {
+      .addCase(loginUser.pending, (state, action) => {
         state.isLoading = true;
-        state.isAuthenticated=false;
+        state.isAuthenticated = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         (state.isLoading = false),
