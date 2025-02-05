@@ -26,20 +26,17 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://earnmern-store-5rbnhudqb-hamza-khans-projects-02f50111.vercel.app",
 ];
-// app.options("*", cors()); // Handle preflight requests
+app.options("*", cors()); // Handle preflight requests
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, origin);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    // origin: [
-    //   "https://earnmern-store-5rbnhudqb-hamza-khans-projects-02f50111.vercel.app",
-    //   "http://localhost:3000",
-    // ],
+    // origin: function (origin, callback) {
+    //   if (!origin || allowedOrigins.includes(origin)) {
+    //     callback(null, true);
+    //   } else {
+    //     callback(new Error("Not allowed by CORS"));
+    //   }
+    // },
+    origin:process.env.URL,
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
@@ -52,7 +49,6 @@ app.use(
   })
 );
 
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.get('/', (req, res) => {
