@@ -2,7 +2,7 @@ const express = require("express");
 // import Features from './../app/src/pages/admin-view/features';
 const mongoose = require("mongoose");
 const cors = require("cors");
-
+require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth/auth-routes");
 const adminProductsRouter = require("./routes/admin/products-routes");
