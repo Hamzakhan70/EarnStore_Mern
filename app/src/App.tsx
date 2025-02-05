@@ -1,3 +1,4 @@
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(
@@ -30,6 +31,7 @@ import NotFound from "./pages/not-found";
 import { Toaster } from "@/components/ui/toaster";
 import AdminDashboard from "./pages/admin-view/dashboard";
 
+
 function App() {
   
   const [clientSecret, setClientSecret] = useState("");
@@ -44,7 +46,7 @@ function App() {
  
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/stripe/create-payment-intent", {
+    fetch(`${BASE_URL}/stripe/create-payment-intent`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: 2000, currency: "usd" }), // amount in cents
@@ -56,6 +58,8 @@ function App() {
   const options = {
     clientSecret,
   };
+
+
   if (isLoading)
     return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
   return (
