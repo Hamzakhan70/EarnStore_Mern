@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL ;
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(
@@ -49,6 +49,7 @@ function App() {
     fetch(`${BASE_URL}/stripe/create-payment-intent`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ amount: 2000, currency: "usd" }), // amount in cents
     })
       .then((res) => res.json())
