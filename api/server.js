@@ -23,7 +23,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(
   cors({
-    origin: process.env.URL || "http://localhost:3000",
+    // origin: process.env.URL || "http://localhost:3000",
+    origin:
+      "https://earnmern-store-5rbnhudqb-hamza-khans-projects-02f50111.vercel.app",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
