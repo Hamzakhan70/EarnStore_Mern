@@ -5,6 +5,8 @@ import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import axios from "axios";
+const BASE_URL =
+  import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
 function ProductImageUpload({
   imageFile,
   setImageFile,
@@ -45,7 +47,7 @@ function ProductImageUpload({
     const data = new FormData();
     data.append("my_file", imageFile);
     const response = await axios.post(
-      "http://localhost:5000/api/admin/products/upload-image",
+      `${BASE_URL}/admin/products/upload-image`,
       data
     );
     console.log(response, "response of image");
@@ -114,3 +116,4 @@ function ProductImageUpload({
 }
 
 export default ProductImageUpload;
+ 
