@@ -7,14 +7,14 @@ const initialState = {
   isLoading: true,
   user: null,
 };
-console.log("Backend URL:", BASE_URL);
 export const registerUser = createAsyncThunk(
   "/auth/register",
   async (formData) => {
+    console.log("Backend URL:", BASE_URL);
     const response = await axios.post(`${BASE_URL}/auth/register`, formData, {
       withCredentials: true,
     });
-    return response;
+    return response.data;
   }
 );
 export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
