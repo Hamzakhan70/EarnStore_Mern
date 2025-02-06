@@ -20,7 +20,7 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
   // const response = await axios.post(`${BASE_URL}/auth/login`, formData, {
   const response = await axios.post(
-    `https://earnstoremern-production.up.railway.app/api/auth/login`,
+    `${BASE_URL}/auth/login`,
     formData,
     {
       withCredentials: true,
@@ -30,7 +30,6 @@ export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
 });
 export const logoutUser = createAsyncThunk(
   "/auth/logout",
-
   async () => {
     const response = await axios.post(
       `${BASE_URL}/auth/logout`,
