@@ -6,7 +6,7 @@ const initialState = {
   featureImageList: [],
   uploadedImage: null,
 };
-
+console.log("backend url:", BASE_URL);
 export const uploadImageCloud = createAsyncThunk(
   "/cloudinary/uploadImage",
   async (image) => {
