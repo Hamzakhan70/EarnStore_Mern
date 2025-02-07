@@ -9,9 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { uploadImageCloud } from "@/store/common-slice";
 import { useToast } from "@/hooks/use-toast";
 
-// import * as dotenv from "dotenv";
-// dotenv.config();
-// const BASE_URL = process.env.VITE_BACKEND_URL || "http://localhost:5000/api";
 function ProductImageUpload({
   imageFile,
   setImageFile,
@@ -53,14 +50,8 @@ function ProductImageUpload({
   }
 
   async function uploadImageToCloudinary() {
-    // setImageLoadingState(true);
     const data = new FormData();
     data.append("my_file", imageFile);
-    // const response = await axios.post(
-    //   `${BASE_URL}/admin/products/upload-image`,
-    //   data
-    // );
-
     dispatch(uploadImageCloud(data))
       .unwrap()
       .then((url: any) => {
@@ -75,10 +66,6 @@ function ProductImageUpload({
           title: "Upload failed. Try again!",
         });
       });
-    // if (response?.data?.success) {
-    //   setUploadedImageUrl(response.data.result.url);
-    //   setImageLoadingState(false);
-    // }
   }
 
   useEffect(() => {
