@@ -1,18 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const BASE_URL =
-  import.meta.env.VITE_BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const initialState = {
   isLoading: false,
   featureImageList: [],
+  uploadedImage: null,
 };
 
+export const uploadImageCloud = createAsyncThunk(
+  "/cloudinary/uploadImage",
+  async (image) => {
+    const response = await axios.post(
+      `${BASE_URL}/admin/products/upload-image`,
+      image
+    );
+
+    return response.data;
+  }
+);
 export const getFeatureImages = createAsyncThunk(
   "/order/getFeatureImages",
   async () => {
-    const response = await axios.get(
-      `${BASE_URL}/common/feature/get`
-    );
+    const response = await axios.get(`${BASE_URL}/common/feature/get`);
 
     return response.data;
   }
@@ -21,10 +30,9 @@ export const getFeatureImages = createAsyncThunk(
 export const addFeatureImage = createAsyncThunk(
   "/order/addFeatureImage",
   async (image) => {
-    const response = await axios.post(
-      `${BASE_URL}/common/feature/add`,
-      { image }
-    );
+    const response = await axios.post(`${BASE_URL}/common/feature/add`, {
+      image,
+    });
 
     return response.data;
   }
@@ -71,6 +79,19 @@ const commonSlice = createSlice({
       .addCase(deleteFeatureImage.rejected, (state) => {
         state.isLoading = false;
         state.featureImageList = [];
+      })
+      .addCase(uploadImageCloud.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(uploadImageCloud.fulfilled, (state, action) => {
+        console.log(action, "this is action");
+        state.uploadedImage = action.payload.result.url;
+        state.isLoading = false;
+      })
+      .addCase(uploadImageCloud.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });

@@ -5,8 +5,13 @@ import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import axios from "axios";
-const BASE_URL =
-  import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadImageCloud } from "@/store/common-slice";
+import { useToast } from "@/hooks/use-toast";
+
+// import * as dotenv from "dotenv";
+// dotenv.config();
+// const BASE_URL = process.env.VITE_BACKEND_URL || "http://localhost:5000/api";
 function ProductImageUpload({
   imageFile,
   setImageFile,
@@ -17,7 +22,12 @@ function ProductImageUpload({
   isEditMode,
   isCustomStyling = false,
 }) {
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
+  const { toast } = useToast();
+  const { uploadedImage, isLoading, error } = useSelector(
+    (state: any) => state.commonFeature
+  );
   function handleImageFileChange(event: any) {
     console.log(event.target.files, "event.target.files");
     const selectedFile = event.target.files?.[0];
@@ -43,19 +53,32 @@ function ProductImageUpload({
   }
 
   async function uploadImageToCloudinary() {
-    setImageLoadingState(true);
+    // setImageLoadingState(true);
     const data = new FormData();
     data.append("my_file", imageFile);
-    const response = await axios.post(
-      `${BASE_URL}/admin/products/upload-image`,
-      data
-    );
-    console.log(response, "response of image");
+    // const response = await axios.post(
+    //   `${BASE_URL}/admin/products/upload-image`,
+    //   data
+    // );
 
-    if (response?.data?.success) {
-      setUploadedImageUrl(response.data.result.url);
-      setImageLoadingState(false);
-    }
+    dispatch(uploadImageCloud(data))
+      .unwrap()
+      .then((url: any) => {
+        setImageLoadingState(false);
+        setUploadedImageUrl(uploadedImage);
+        toast({
+          title: "Image uploaded successfully!",
+        });
+      })
+      .catch((err: any) => {
+        toast({
+          title: "Upload failed. Try again!",
+        });
+      });
+    // if (response?.data?.success) {
+    //   setUploadedImageUrl(response.data.result.url);
+    //   setImageLoadingState(false);
+    // }
   }
 
   useEffect(() => {
@@ -116,4 +139,3 @@ function ProductImageUpload({
 }
 
 export default ProductImageUpload;
- 
