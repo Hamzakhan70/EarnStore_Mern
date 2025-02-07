@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const BASE_URL =
   import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
+  
 const initialState = {
   isAuthenticated: false,
   isLoading: true,
@@ -41,7 +42,6 @@ export const logoutUser = createAsyncThunk("/auth/logout",
     return response.data;
   }
 );
-
 export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
   const response = await axios.post(`${BASE_URL}/auth/check-auth`, {
     withCredentials: true,
@@ -52,7 +52,6 @@ export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
 
   return response.data;
 });
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
