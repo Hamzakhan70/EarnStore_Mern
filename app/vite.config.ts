@@ -18,16 +18,11 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 3000, // Set a custom port if needed
-      open: true, // Automatically open the app in the browser
+      open: false, // Automatically open the app in the browser
     },
     build: {
       outDir: "dist", // Output directory for the production build
     },
-    "compilerOptions": {
-      "module": "es2020",
-      "target": "es2020",
-      "strict": true,
-  
-    }
+   
   };
 });
