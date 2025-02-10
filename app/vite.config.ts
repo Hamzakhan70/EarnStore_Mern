@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
       "process.env": env, // Ensures process.env variables are available
     },
     server: {
-      port: 3000, // Set a custom port if needed
+      port: 8080, // Set a custom port if needed
       open: false, // Automatically open the app in the browser
     },
     build: {
