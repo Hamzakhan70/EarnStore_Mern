@@ -227,9 +227,9 @@ const handlePayment = async () => {
               {/* stripe payment */}
               {/* <PaymentElement /> */}
               <CardElement/>
-              <button onClick={handlePayment} disabled={loading || !stripe}>
+              <Button onClick={handlePayment} disabled={loading || !stripe}>
                 {loading ? "Processing..." : "Pay Now"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
