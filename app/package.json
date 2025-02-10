@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-         "dev": "vite --no-open",
-    "start": "vite --no-open",
-    "build": "vite build",
+    "dev": "vite",
+  "build": "vite build",
+  "start": "node server.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "build:dev": "vite build --mode development",
