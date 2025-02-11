@@ -4,6 +4,7 @@ import { brandOptionsMap, categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
 
 function ShoppingProductTile({
+  key,
   product,
   handleGetProductDetails,
   handleAddtoCart,

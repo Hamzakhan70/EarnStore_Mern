@@ -19,7 +19,7 @@ import {
 import {
   fetchAllFilteredProducts,
   fetchProductDetails,
-} from "@/store/shop/products-slice";
+} from "../../store/shop/products-slice";
 
 import ShoppingProductTile from "./product-tile";
 
@@ -33,9 +33,6 @@ function createSearchParamsHelper(filterParams) {
       queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
     }
   }
-
-
-
   return queryParams.join("&");
 }
 
@@ -136,14 +133,14 @@ function ShoppingListing() {
 
   useEffect(() => {
     if (filters !== null && sort !== null)
-      dispatch(
-        fetchAllFilteredProducts({ filterParams: filters, sortParams: sort })
-      );
+      console.log(productList, "this is product list", filters);
+    dispatch(
+      fetchAllFilteredProducts({ filterParams: filters, sortParams: sort })
+    );
   }, [dispatch, sort, filters]);
 
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
-    console.log(productDetails, "this is product details");
   }, [productDetails]);
 
   return (
@@ -186,6 +183,7 @@ function ShoppingListing() {
           {productList && productList.length > 0
             ? productList.map((productItem) => (
                 <ShoppingProductTile
+                  key={productItem.id}
                   handleGetProductDetails={handleGetProductDetails}
                   product={productItem}
                   handleAddtoCart={handleAddtoCart}
