@@ -22,7 +22,7 @@ mongoose
   .catch((error) => console.log(error));
 const app = express();
 const PORT = process.env.PORT || 5000;
-console.log('url-from-server',process.env.URL);
+console.log("url-from-server", process.env.URL);
 app.use(
   cors({
     origin: process.env.URL,
