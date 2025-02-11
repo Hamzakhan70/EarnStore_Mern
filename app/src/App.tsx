@@ -35,10 +35,13 @@ import AdminDashboard from "./pages/admin-view/dashboard";
 function App() {
   
   const [clientSecret, setClientSecret] = useState("");
+
   const { isAuthenticated, user, isLoading } = useSelector(
     (state: any) => state.auth
   );
+  
   const dispatch = useDispatch();
+
   useEffect(() => {
     const token = JSON.parse(sessionStorage.getItem("token"));
     dispatch(checkAuth(token));

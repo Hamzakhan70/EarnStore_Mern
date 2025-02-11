@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://your-backend-project.railway.app';
 
 const initialState = {
   isLoading: false,

@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const BASE_URL =
-  import.meta.env.VITE_BACKEND_URL;
+
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://your-backend-project.railway.app/api';
+
   
 const initialState = {
   isAuthenticated: false,
@@ -86,26 +87,27 @@ const authSlice = createSlice({
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(registerUser.fulfilled, (state) => {
-        (state.isLoading = false),
-          (state.isAuthenticated = false),
-          (state.user = null);
-      })
-      .addCase(registerUser.rejected, (state) => {
-        (state.isLoading = false),
-          (state.isAuthenticated = false),
-          (state.user = null);
-      })
-      .addCase(loginUser.pending, (state, action) => {
-        state.isLoading = true;
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
         state.isAuthenticated = false;
       })
-      .addCase(loginUser.fulfilled, (state, action) => { 
-        (state.isLoading = false),
-          (state.user = action.payload.success ? action.payload.user : null),
-          (state.isAuthenticated = action.payload.success);
-          state.token = action.payload.token;
-          sessionStorage.setItem("token", JSON.stringify(action.payload.token));
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        console.log(action);
+
+        state.isLoading = false;
+        state.user = action.payload.success ? action.payload.user : null;
+        state.isAuthenticated = action.payload.success;
+        state.token = action.payload.token;
+        sessionStorage.setItem("token", JSON.stringify(action.payload.token));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -113,23 +115,23 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.token = null;
       })
-      .addCase(logoutUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.user = null;
-        state.isAuthenticated = false;
-      })
       .addCase(checkAuth.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
-        (state.isLoading = false),
-          (state.isAuthenticated = action.payload.success),
-          (state.user = action.payload.user ? action.payload.user : null);
+        state.isLoading = false;
+        state.user = action.payload.success ? action.payload.user : null;
+        state.isAuthenticated = action.payload.success;
       })
-      .addCase(checkAuth.rejected, (state) => {
-        (state.isLoading = false),
-          (state.isAuthenticated = false),
-          (state.user = null);
+      .addCase(checkAuth.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
       });
   },
 });
