@@ -1,6 +1,7 @@
 const Product = require("../../models/Products");
 
 const getFilteredProducts = async (req, res) => {
+  console.log(req.body, "from getfiltered controller");
   try {
     const { category = [], brand = [], sortBy = "price-lowtohigh" } = req.query;
 
@@ -40,8 +41,8 @@ const getFilteredProducts = async (req, res) => {
         break;
     }
 
+    console.log(sort, "products", filters);
     const products = await Product.find(filters).sort(sort);
-
     res.status(200).json({
       success: true,
       data: products,
